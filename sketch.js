@@ -1,69 +1,56 @@
+var database;
+var form,
+  game,
+  player,
+  playerCount = 0,
+  bgimg;
 
-function preload(){
+var gameState = 0;
+var allplayers, blastImage;
+var bike1,
+  bike2,
+  bike3,
+  bike4,
+  bikes = [];
 
+function preload() {
+  bgimg = loadImage("images/background1.png");
+  bike1img = loadImage("images/bike1.png");
+  bike2img = loadImage("images/bike2.png");
+  bike3img = loadImage("images/bike3.png");
+  bike4img = loadImage("images/bike4.png");
+  trackimg = loadImage("images/track.png");
+  end_bg = loadImage("images/leaderboard1.png");
+  blastImage = loadImage("images/blast.png");
 }
 
-function setup(){
-  createCanvas(600,600);
-
-
-sprite = createSprite(200,600,1,3);
-sprite2 = createSprite(200,400,200,3);
-sprite3 = createSprite(200,300,200,3);
-sprite4 = createSprite(100,317.5,3,35);
-sprite5 = createSprite(100,384,3,35);
-sprite6 = createSprite(89,336,25,3);
-sprite7 = createSprite(89,366,25,3);
-sprite8 = createSprite(78,350,3,30);
-sprite9 = createSprite(300,316,3,35);
-sprite10 = createSprite(300,384,3,35);
-sprite11 = createSprite(316,366,35,3);
-sprite12 = createSprite(316,335,35,3);
-sprite13 = createSprite(335,350,3,33);
-
-sprite14 = createSprite(95,350,10,10);
-sprite14.shapeColor="red";
-
-spriteenemy = createSprite(200,350,10,10);
-spriteenemy2 = createSprite(140,350,10,10);
-spriteenemy3 = createSprite(260,350,10,10);
-
-
+function setup() {
+  database = firebase.database();
+  canvas = createCanvas(950, 470);
+  game = new Game();
+  game.getState();
+  game.start();
 }
 
-function draw(){
-background("black");
-
-//drawSprites();Acuerdate que el draw spites va a abajo 
-
- if(keyDown(UP_ARROW)){  //las condicionales vasn sin "" amenos que sean letras "a"
-    changeposition(0,-5);//los valores positivo s no requieren +
-  }
-  
-if(keyDown(DOWN_ARROW)){
-    changeposition(0,5);
-  }
-      
-      
-if(keyDown(LEFT_ARROW)){
-    changeposition(-5,0);
-  }
-      
-if(keyDown(RIGHT_ARROW)){
-  changeposition(5,0); //los in no llevan ; en las llaves  
+function draw() {
+  if (gameState === 0) {
+    background(bgimg);
   }
 
-  drawSprites();
+  if (playerCount === 4) {
+    game.update(1);
+  }
+
+  if (gameState === 1) {
+    clear();
+    game.play();
+  }
+
+  if (gameState === 2) {
+    clear();
+    background(end_bg);
+    game.end();
+  }
 }
 
-function changeposition(x,y){
-  sprite14= sprite14.x+x;
-  sprite14= sprites14.y+y;
-}
 
-//llopezbriones0@gmail.com   
-
-function velocity(){
-  //realizar movimeitnos aleatorios en los sprites 
-
-}
